@@ -1,3 +1,4 @@
+from vocabulary import db
 from vocabulary.models import Word, Language
 
 
@@ -7,15 +8,12 @@ def fill_language():
 
 
 def fill_from_txt(file_name):
-    result = []
+    data = []
     with open(file_name, 'r') as f:
         for line in f.readlines():
             word, type, _ = line.split(',')
-            print(word, type)
-            record = Word.create(word=word, type=type, language=1)
-            result.append(record)
-    return result
+            data.append((word.strip(), type.strip(), 1))
 
-
-fill_language()
-print(fill_from_txt(file_name='espanol.txt'))
+    with db.atomic():
+        Word.insert_many(data, fields=[Word.word, Word.type, Word.language]).execute()
+    return data

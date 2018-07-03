@@ -3,3 +3,5 @@ DB_PORT = 5433
 DB_HOST = 'localhost'
 DB_USER = 'postgres'
 DB_NAME = 'vocabulary'
+
+FILE_NAME = 'data/espanol.txt'
